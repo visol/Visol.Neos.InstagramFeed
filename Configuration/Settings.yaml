@@ -1,0 +1,27 @@
+Neos:
+  Neos:
+    fusion:
+      autoInclude:
+        Visol.Neos.InstagramFeed: true
+    userInterface:
+      translation:
+        autoInclude:
+          Visol.Neos.InstagramFeed:
+            - 'NodeTypes/**/*'
+  Fusion:
+    defaultContext:
+      'InstagramFeed': 'Visol\Neos\InstagramFeed\Eel\Helper\InstagramFeedHelper'
+
+Visol:
+  Neos:
+    InstagramFeed:
+      # Generate access token, e.g. at http://instagram.pixelunion.net
+      accessToken: 'set-valid-token'
+      # Lifetime of the cache entry for the feed
+      cacheLifetime: '3600'
+      # Number of images to display
+      numberOfImages: 6
+      # CSS classes for wrapping all images
+      imagesWrapperCssClassAttribute: 'row'
+      # CSS classes for wrapping a single image
+      imageContainerCssClassAttribute: 'instagram-image-container col-6 col-sm-3 col-md-2'

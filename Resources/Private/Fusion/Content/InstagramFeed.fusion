@@ -1,0 +1,61 @@
+prototype(Visol.Neos.InstagramFeed:InstagramFeed) < prototype(Neos.Neos:ContentComponent) {
+    @cache {
+        mode = 'cached'
+        maximumLifetime = ${Configuration.setting('Visol.Neos.InstagramFeed.cacheLifetime')}
+        entryIdentifier {
+            node = ${node}
+        }
+    }
+
+    instagramFeed = ${InstagramFeed.recentMedia()}
+
+    images = ${this.instagramFeed}
+
+    numberOfImages = ${Configuration.setting('Visol.Neos.InstagramFeed.numberOfImages')}
+
+    imagesToRender = ${Array.slice(this.images, 0, this.numberOfImages)}
+    @context.imagesToRender = ${this.imagesToRender}
+
+    imageCollection = Neos.Fusion:Collection {
+        collection = ${imagesToRender}
+        itemName = 'image'
+        itemRenderer = Visol.Neos.InstagramFeed:Content.InstagramImageRenderer {
+            image = ${image}
+        }
+    }
+
+    displayNoItemsAlert = ${documentNode.context.inBackend && Array.isEmpty(this.instagramFeed)}
+
+    imagesWrapperCssClassAttribute = ${Configuration.setting('Visol.Neos.InstagramFeed.imagesWrapperCssClassAttribute')}
+
+    renderer = afx`
+        <div class="instagram-feed">
+            <div class={props.imagesWrapperCssClassAttribute}>
+                {props.imageCollection}
+            </div>
+        </div>
+        <div class="alert alert-info" role="alert" @if.displayNoItemsAlert={props.displayNoItemsAlert}>
+            Keine Inhalte gefunden oder Access Token ungültig.
+        </div>
+    `
+}
+
+prototype(Visol.Neos.InstagramFeed:Content.InstagramImageRenderer) < prototype(Neos.Fusion:Component) {
+    image = null
+    link = ${this.image.link}
+    images = ${this.image.images}
+
+    srcSet = ${this.images.low_resolution.url + ' ' + this.images.low_resolution.width + 'w ' + this.images.low_resolution.height + 'h, ' + this.images.standard_resolution.url + ' ' + this.images.standard_resolution.width + 'w ' + this.images.standard_resolution.height + 'h'}
+
+    caption = ${this.image.caption.text}
+
+    imageContainerCssClassAttribute = ${Configuration.setting('Visol.Neos.InstagramFeed.imageContainerCssClassAttribute')}
+
+    renderer = afx`
+        <div class={props.imageContainerCssClassAttribute}>
+            <div class="instagram-image lazyload" data-sizes="auto" data-bgset={props.srcSet}>
+                <a target="_blank" href={props.link} title={props.caption}></a>
+            </div>
+        </div>
+    `
+}

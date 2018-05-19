@@ -1,0 +1,20 @@
+{
+    "name": "visol/neos-instagramfeed",
+    "type": "neos-package",
+    "description": "Neos package that provides an instagram feed Node Type using an EEL helper",
+    "license": "MIT",
+    "require": {
+        "neos/neos": "~3.3 || dev-master",
+        "neos/fusion-afx": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Visol\\Neos\\InstagramFeed\\": "Classes"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Visol.Neos.InstagramFeed"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+'Visol.Neos.InstagramFeed:InstagramFeed':
+  superTypes:
+    'Neos.Neos:Content': true
+  ui:
+    group: 'general'
+    label: i18n
+    icon: 'icon-instagram'
